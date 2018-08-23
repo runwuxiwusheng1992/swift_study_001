@@ -16,7 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        //设置状态栏颜色
+        UIApplication.shared.statusBarStyle=UIStatusBarStyle.lightContent;
+        //设置window
         self.window=UIWindow(frame: UIScreen.main.bounds)
+        //设置根控制器
         let rootVC = CuiTabBarController()
         self.window?.rootViewController=rootVC
         self.window?.makeKeyAndVisible()

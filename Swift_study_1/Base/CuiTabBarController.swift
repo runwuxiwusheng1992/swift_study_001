@@ -19,9 +19,12 @@ class CuiTabBarController: UITabBarController {
         firstNC.title="基础"
         secondNC.title="UI"
         thirdNC.title="网络"
-        self.addChildViewController(firstNC)
-        self.addChildViewController(secondNC)
-        self.addChildViewController(thirdNC)
+        self.viewControllers=[firstNC,secondNC,thirdNC]
+        
+        self.tabBar.isTranslucent=false //设置是否透明--这里的透明不是全透明，设置背景色会有模糊效果
+        self.tabBar.barTintColor=UIColor.white //设置背景色
+        self.tabBar.tintColor=UIColor.black //设置选中的颜色
+        //self.tabBar.clipsToBounds=true //去掉系统的分割线
     
     }
 

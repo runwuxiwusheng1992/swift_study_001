@@ -8,11 +8,14 @@
 
 import UIKit
 
-let kScreenHeight = UIScreen.main.bounds.size.height
-let kScreenWidth = UIScreen.main.bounds.size.width
-let NavHeight = (kScreenHeight==812) ? 88 : 64
-let BottomHeight = (kScreenHeight==812) ? 84 : 49
-let TabbarHeight = 49
+let kScreenHeight:CGFloat = UIScreen.main.bounds.size.height
+let kScreenWidth:CGFloat = UIScreen.main.bounds.size.width
+let NavHeight:CGFloat = (kScreenHeight==812) ? 88.0 : 64.0
+let BottomHeight:CGFloat = (kScreenHeight==812) ? 84.0 : 49.0
+let TabbarHeight:CGFloat = 49.0
+
+let mainColor=UIColor(red: 57.0/255.0, green: 136.0/255.0, blue: 251.0/255.0, alpha: 1)
+
 
 
 
