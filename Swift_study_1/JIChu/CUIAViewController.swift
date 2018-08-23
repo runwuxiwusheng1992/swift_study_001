@@ -13,6 +13,7 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //77777777
         //导航标题
         self.navigationItem.title="Swift基础"
         self.navigationController?.navigationBar.barTintColor=mainColor
