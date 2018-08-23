@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CUIAViewController: UIViewController {
+class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class CUIAViewController: UIViewController {
   
         //滚动视图
         let scrollBgview=UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-BottomHeight-NavHeight))
-        scrollBgview.contentSize=CGSize(width: kScreenWidth, height: 2000)
+        scrollBgview.contentSize=CGSize(width: kScreenWidth, height: 650)
         self.view.addSubview(scrollBgview)
         
         //标签
@@ -50,22 +50,37 @@ class CUIAViewController: UIViewController {
         greenImageview.layer.borderWidth=1;
         greenImageview.layer.borderColor=mainColor.cgColor
         greenImageview.layer.cornerRadius=5;
+        greenImageview.isUserInteractionEnabled=true
         scrollBgview.addSubview(greenImageview)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapClick))
+        greenImageview.addGestureRecognizer(tap)
         
         //开关
         let switchview=UISwitch(frame: CGRect(x: 10, y: 340, width: 120, height: 50))
         switchview.addTarget(self, action: #selector(switchChange(_:)), for: .valueChanged)
+        switchview.thumbTintColor=mainColor
+        switchview.tintColor=mainColor
+        switchview.onTintColor=UIColor.red
         scrollBgview.addSubview(switchview)
         
         //活动指示器
         let activity = UIActivityIndicatorView(frame: CGRect(x: 150, y: 340, width: 50, height: 50))
+        activity.backgroundColor=mainColor
+        activity.color=UIColor.red
+        activity.tag=20
+        activity.startAnimating()
+        scrollBgview.addSubview(activity)
+        
         //滑动条
         let slideview=UISlider(frame: CGRect(x: 10, y: 400, width: kScreenWidth-20, height: 50))
         slideview.value=50
         slideview.minimumValue=0
         slideview.maximumValue=255
         slideview.isContinuous=true
-        slideview.tintColor=mainColor
+        slideview.maximumTrackTintColor=UIColor.orange
+        slideview.minimumTrackTintColor=mainColor
+        slideview.thumbTintColor=mainColor
         slideview.addTarget(self, action:  #selector(slideChange(_:)), for: .valueChanged)
         scrollBgview.addSubview(slideview)
         
@@ -102,36 +117,60 @@ class CUIAViewController: UIViewController {
         let progressView=UIProgressView(frame: CGRect(x: 10, y: 580, width: kScreenWidth-20, height: 20))
         progressView.progress=0.5
         progressView.tintColor=mainColor
+        progressView.trackTintColor=UIColor.red
         scrollBgview.addSubview(progressView)
         
     }
     
+    //分段控制器的事件
     @objc func segmentChange(_ segmentview: UISegmentedControl) {
         print("选中了\(segmentview.selectedSegmentIndex)")
     }
     
+    //滑块儿的事件
     @objc func slideChange(_ slide: UISlider) {
         self.view.backgroundColor=UIColor(red: CGFloat(slide.value/255.0), green: 100/255, blue: 50/255, alpha: 1)
     }
     
+    //开关按钮的点击事件
     @objc func switchChange(_ switchview: UISwitch) {
+        let activity=self.view.viewWithTag(20) as! UIActivityIndicatorView
         switch(switchview.isOn) {
         case true:
             self.view.backgroundColor=UIColor.black
+            activity.stopAnimating()
         default:
             self.view.backgroundColor=UIColor.white
+            activity.startAnimating()
         }
     }
 
+    //步进器的事件
     @objc func stepperChange(_ stepper: UIStepper) {
         let stepperLabel=self.view.viewWithTag(10) as! UILabel
         stepperLabel.text="步进值为\(stepper.value)"
     }
     
+    //按钮的点击事件
     @objc func redButtonClick(){
-        print("redButtonClick")
+        let actionSheet = UIActionSheet(title: "请选择", delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "第1条数据", "第2条数据","第3条数据")
+        actionSheet.show(in: self.view)
     }
-
+    
+    @objc func tapClick(){
+        let alertview=UIAlertView(title: "温馨提示", message: "您点击了一张图片", delegate: self, cancelButtonTitle: "知道了")
+        alertview.show()
+    }
+    
+    //sctionsheet--delegate
+    func actionSheet(_ actionSheet: UIActionSheet, clickedButtonAt buttonIndex: Int) {
+        switch buttonIndex {
+        case 0,1,2,3:
+            print("选择了\(buttonIndex)")
+        default:
+            print("选择了其他")
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
