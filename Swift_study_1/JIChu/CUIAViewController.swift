@@ -152,11 +152,7 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
     @objc func keyBoardWillHide(_ notification: Notification){
         
     }
-    
-    
-    
-    
-    
+
     //分段控制器的事件
     @objc func segmentChange(_ segmentview: UISegmentedControl) {
         print("选中了\(segmentview.selectedSegmentIndex)")
