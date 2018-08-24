@@ -8,12 +8,11 @@
 
 import UIKit
 
-class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDelegate{
+class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDelegate,UITextFieldDelegate{
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //77777777
         //导航标题
         self.navigationItem.title="Swift基础"
         self.navigationController?.navigationBar.barTintColor=mainColor
@@ -23,7 +22,7 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
   
         //滚动视图
         let scrollBgview=UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-BottomHeight-NavHeight))
-        scrollBgview.contentSize=CGSize(width: kScreenWidth, height: 650)
+        scrollBgview.contentSize=CGSize(width: kScreenWidth, height: 700)
         self.view.addSubview(scrollBgview)
         
         //标签
@@ -121,7 +120,42 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
         progressView.trackTintColor=UIColor.red
         scrollBgview.addSubview(progressView)
         
+        //文本框
+        let textfield = UITextField(frame: CGRect(x: 10, y: 620, width: kScreenWidth-20, height: 40))
+        textfield.borderStyle=UITextBorderStyle.roundedRect
+        textfield.delegate=self
+        //设置textfield的leftview
+        let textimage = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
+        textimage.image=UIImage(named: "sousuo")
+        textfield.leftView=textimage
+        //leftview与textfield边距不可调整，两种解决办法（1）美工切图留边 （2）leftview上加imageview设置imageview的边距
+        textfield.leftViewMode = .always
+        
+        //Always 一直显示
+        //Never 从不显示(默认)
+        //WhileEditing 当文本输入框处于编辑状态的时候才显示
+        //UnlessEditing 当文本输入框处于非编辑状态的时候才显示
+        //注:当文本输入框中有光标的时候就是处于编辑状态
+        textfield.clearButtonMode = .always
+        textfield.attributedPlaceholder=NSAttributedString(string: "请输入您想输入的文字", attributes: [NSAttributedStringKey.foregroundColor:mainColor])
+        scrollBgview.addSubview(textfield)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
+        
     }
+    
+    @objc func keyBoardWillShow(_ notification: Notification){
+        
+    }
+    
+    @objc func keyBoardWillHide(_ notification: Notification){
+        
+    }
+    
+    
+    
+    
     
     //分段控制器的事件
     @objc func segmentChange(_ segmentview: UISegmentedControl) {
