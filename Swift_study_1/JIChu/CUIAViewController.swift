@@ -7,12 +7,17 @@
 //
 
 import UIKit
+class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDelegate,UITextFieldDelegate,changeLabelTextDelegate{
 
-class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDelegate,UITextFieldDelegate{
-
+    var scrollBgview=UIScrollView()
+    var textfield=UITextField()
+    var contentoffset=CGPoint()
+    var orangeLabel=UILabel()
+    var bigBgBtn=UIButton(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //导航标题
         self.navigationItem.title="Swift基础"
         self.navigationController?.navigationBar.barTintColor=mainColor
@@ -21,12 +26,12 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
         self.view.backgroundColor=UIColor.white
   
         //滚动视图
-        let scrollBgview=UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-BottomHeight-NavHeight))
+        scrollBgview.frame = CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-BottomHeight-NavHeight)
         scrollBgview.contentSize=CGSize(width: kScreenWidth, height: 700)
         self.view.addSubview(scrollBgview)
         
         //标签
-        let orangeLabel = UILabel.init(frame: CGRect(x: 10, y: 10, width: kScreenWidth-20, height: 100))
+        orangeLabel = UILabel.init(frame: CGRect(x: 10, y: 10, width: kScreenWidth-20, height: 100))
         orangeLabel.backgroundColor = mainColor
         orangeLabel.text="this is a orange label"
         orangeLabel.textColor=UIColor.white
@@ -121,7 +126,7 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
         scrollBgview.addSubview(progressView)
         
         //文本框
-        let textfield = UITextField(frame: CGRect(x: 10, y: 620, width: kScreenWidth-20, height: 40))
+        textfield = UITextField(frame: CGRect(x: 10, y: 620, width: kScreenWidth-20, height: 40))
         textfield.borderStyle=UITextBorderStyle.roundedRect
         textfield.delegate=self
         //设置textfield的leftview
@@ -140,17 +145,48 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
         textfield.attributedPlaceholder=NSAttributedString(string: "请输入您想输入的文字", attributes: [NSAttributedStringKey.foregroundColor:mainColor])
         scrollBgview.addSubview(textfield)
         
+        self.view.addSubview(self.bigBgBtn)
+        self.bigBgBtn.isHidden=true
+        self.bigBgBtn.addTarget(self, action: #selector(bigBgBtnClick), for: UIControlEvents.touchUpInside)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_:)), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(changeLabelbackground), name:NSNotification.Name("changelabeltext"), object: nil)
+    }
+    
+    deinit {
+        /// 移除通知
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc func keyBoardWillShow(_ notification: Notification){
         
+        self.bigBgBtn.isHidden = false
+        let kbInfo = notification.userInfo
+        let kbRect = (kbInfo?[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let changeY = kbRect.size.height
+        let duration = kbInfo?[UIKeyboardAnimationDurationUserInfoKey] as!Double
+        self.contentoffset=self.scrollBgview.contentOffset
+        UIView.animate(withDuration: duration) {
+           self.scrollBgview.contentOffset = CGPoint(x: 0, y: changeY+kScreenHeight-self.textfield.frame.origin.y-50-BottomHeight+self.scrollBgview.contentOffset.y)
+        }
     }
     
     @objc func keyBoardWillHide(_ notification: Notification){
-        
+        self.bigBgBtn.isHidden = true
+        let kbInfo = notification.userInfo
+        let duration = kbInfo?[UIKeyboardAnimationDurationUserInfoKey] as!Double
+        UIView.animate(withDuration: duration) {
+              self.scrollBgview.contentOffset = self.contentoffset
+        }
+    }
+    
+    @objc func bigBgBtnClick()
+    {
+        self.textfield.resignFirstResponder()
     }
 
     //分段控制器的事件
@@ -170,9 +206,11 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
         case true:
             self.view.backgroundColor=UIColor.black
             activity.stopAnimating()
+            self.orangeLabel.backgroundColor=mainColor
         default:
             self.view.backgroundColor=UIColor.white
             activity.startAnimating()
+            textfield.resignFirstResponder()
         }
     }
 
@@ -189,7 +227,7 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
     }
     
     @objc func tapClick(){
-        let alertview=UIAlertView(title: "温馨提示", message: "您点击了一张图片", delegate: self, cancelButtonTitle: "知道了")
+        let alertview=UIAlertView(title: "温馨提示", message: "进入下一页", delegate: self, cancelButtonTitle: "知道了")
         alertview.show()
     }
     
@@ -202,6 +240,23 @@ class CUIAViewController: UIViewController ,UIActionSheetDelegate,UIAlertViewDel
             print("选择了其他")
         }
     }
+    
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        let bvc = CUIBViewController()
+        bvc.hidesBottomBarWhenPushed = true
+        bvc.delegate=self
+        self.navigationController?.pushViewController(bvc, animated: true)
+    }
+    
+    func changeLabelText() {
+        
+        self.orangeLabel.backgroundColor=UIColor.orange
+    }
+    
+    @objc func changeLabelbackground() {
+        self.orangeLabel.backgroundColor = UIColor.brown
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
