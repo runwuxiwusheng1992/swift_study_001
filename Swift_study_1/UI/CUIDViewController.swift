@@ -12,7 +12,7 @@ import ESPullToRefresh
 class CUIDViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
     lazy var tableView = UITableView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-NavHeight-BottomHeight))
-    var dataSourceArr = ["NVActivityIndicatorView  漂亮的加载指示器"]
+    var dataSourceArr = ["NVActivityIndicatorView  漂亮的加载指示器","ZCycleView 各种各样的轮播图"]
     
     
     override func viewDidLoad() {
@@ -77,6 +77,10 @@ class CUIDViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let NVActivityViewVC = NVActivityIndicatorViewVC()
             NVActivityViewVC.hidesBottomBarWhenPushed=true
             self.navigationController?.pushViewController(NVActivityViewVC, animated: true)
+        case 1:
+            let ZcycleVC = ZCycleViewVC()
+            ZcycleVC.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(ZcycleVC, animated: true)
         default:
             return ;
         }

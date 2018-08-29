@@ -17,7 +17,7 @@ class NVActivityIndicatorViewVC: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.white
         
-        self.navigationItem.title="NVActivityIndicatorView"
+        self.navigationItem.title="加载指示器"
         let backBtn = UIButton(frame: CGRect(x: -20, y: 0, width: 25, height: 25))
         backBtn.setImage(UIImage(named: "nav_back"), for: UIControlState.normal)
         backBtn.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
