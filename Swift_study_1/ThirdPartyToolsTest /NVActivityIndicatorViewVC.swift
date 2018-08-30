@@ -9,35 +9,26 @@
 import UIKit
 import NVActivityIndicatorView
 
-class NVActivityIndicatorViewVC: UIViewController {
-    
-
+class NVActivityIndicatorViewVC: BaseVC {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.white
         
         self.navigationItem.title="加载指示器"
-        let backBtn = UIButton(frame: CGRect(x: -20, y: 0, width: 25, height: 25))
-        backBtn.setImage(UIImage(named: "nav_back"), for: UIControlState.normal)
-        backBtn.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
-        backBtn.imageEdgeInsets=UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
-        let item = UIBarButtonItem(customView: backBtn)
-        self.navigationItem.leftBarButtonItems = [item]
+    
+        /*
+         NVActivityIndicatorType 共32种
+         1. ballPulse    2. ballGridPulse    3. ballClipRotate    4. squareSpin
+         5. ballClipRotatePulse    6. ballClipRotateMultiple    7. ballPulseRise    8. ballRotate
+         9. cubeTransition    10. ballZigZag    11. ballZigZagDeflect    12. ballTrianglePath
+         13. ballScale    14. lineScale    15. lineScaleParty    16. ballScaleMultiple
+         17. ballPulseSync    18. ballBeat    19. lineScalePulseOut    20. lineScalePulseOutRapid
+         21. ballScaleRipple    22. ballScaleRippleMultiple    23. ballSpinFadeLoader    24. lineSpinFadeLoader
+         25. triangleSkewSpin    26. pacman    27. ballGridBeat    28. semiCircleSpin
+         29. ballRotateChase    30. orbit    31. audioEqualizer    32. circleStrokeSpin
+         */
         
-
-//NVActivityIndicatorType
-        
-//        1. ballPulse    2. ballGridPulse    3. ballClipRotate    4. squareSpin
-//        5. ballClipRotatePulse    6. ballClipRotateMultiple    7. ballPulseRise    8. ballRotate
-//        9. cubeTransition    10. ballZigZag    11. ballZigZagDeflect    12. ballTrianglePath
-//        13. ballScale    14. lineScale    15. lineScaleParty    16. ballScaleMultiple
-//        17. ballPulseSync    18. ballBeat    19. lineScalePulseOut    20. lineScalePulseOutRapid
-//        21. ballScaleRipple    22. ballScaleRippleMultiple    23. ballSpinFadeLoader    24. lineSpinFadeLoader
-//        25. triangleSkewSpin    26. pacman    27. ballGridBeat    28. semiCircleSpin
-//        29. ballRotateChase    30. orbit    31. audioEqualizer    32. circleStrokeSpin
-        
-
         let cols = 4
         let rows = 8
         let cellWidth = Int(self.view.frame.width / CGFloat(cols))
@@ -67,16 +58,4 @@ class NVActivityIndicatorViewVC: UIViewController {
         
     }
     
-    @objc func back(){
-
-        self.navigationController?.popViewController(animated: true)
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-
-
 }

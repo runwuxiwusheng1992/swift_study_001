@@ -8,21 +8,13 @@
 
 import UIKit
 
-class ZCycleViewVC: UIViewController,ZCycleViewProtocol {
+class ZCycleViewVC: BaseVC,ZCycleViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor=UIColor.white
-        
         self.navigationItem.title="轮播图"
-        let backBtn = UIButton(frame: CGRect(x: -20, y: 0, width: 25, height: 25))
-        backBtn.setImage(UIImage(named: "nav_back"), for: UIControlState.normal)
-        backBtn.addTarget(self, action: #selector(back), for: UIControlEvents.touchUpInside)
-        backBtn.imageEdgeInsets=UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 10)
-        let item = UIBarButtonItem(customView: backBtn)
-        self.navigationItem.leftBarButtonItems = [item]
-        
+       
         let scrollview = UIScrollView(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight-NavHeight))
         scrollview.contentSize = CGSize(width: kScreenWidth, height: kScreenHeight*1.5)
         self.view.addSubview(scrollview)
@@ -140,26 +132,6 @@ class ZCycleViewVC: UIViewController,ZCycleViewProtocol {
     func cycleViewDidSelectedIndex(_ index: Int) {
         print("selected: \(index)")
     }
-    @objc func back(){
-        
-        self.navigationController?.popViewController(animated: true)
-        
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

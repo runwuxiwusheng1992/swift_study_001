@@ -12,7 +12,7 @@ target 'Swift_study_1' do
   pod 'NVActivityIndicatorView'
   pod 'R.swift'
   pod 'Kingfisher'
-
+  pod 'Spring'
  target 'Swift_study_1Tests' do
     inherit! :search_paths
     # Pods for testing
