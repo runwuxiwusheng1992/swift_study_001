@@ -7,12 +7,14 @@
 //
 
 import UIKit
-
+// size
 let kScreenHeight:CGFloat = UIScreen.main.bounds.size.height
 let kScreenWidth:CGFloat = UIScreen.main.bounds.size.width
 let NavHeight:CGFloat = (kScreenHeight==812) ? 88.0 : 64.0
 let BottomHeight:CGFloat = (kScreenHeight==812) ? 84.0 : 49.0
 let TabbarHeight:CGFloat = 49.0
+//color
+let scale = kScreenWidth/320.0
 
 let mainColor=UIColor(red: 57.0/255.0, green: 136.0/255.0, blue: 251.0/255.0, alpha: 1)
 

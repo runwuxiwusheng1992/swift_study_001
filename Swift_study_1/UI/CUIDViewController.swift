@@ -29,6 +29,7 @@ class CUIDViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         self.tableView.delegate=self
         self.tableView.dataSource=self
         self.view.addSubview(self.tableView)
+        //self.tableView.tableFooterView=UIView.init();
         
         self.tableView.es.addPullToRefresh {
             [weak self] in
@@ -46,7 +47,7 @@ class CUIDViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             /// 如果你的加载更多事件成功，调用es_stopLoadingMore()重置footer状态
             self?.tableView.es.stopLoadingMore()
             /// 通过es_noticeNoMoreData()设置footer暂无数据状态
-            self?.tableView.es.noticeNoMoreData()
+            //self?.tableView.es.noticeNoMoreData()
         }
     }
     
@@ -55,19 +56,35 @@ class CUIDViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        
+        if(indexPath.row==3)
+        {
+            return 120*scale
+        }
+        else
+        {
+            return 100
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataSourceArr.count
+        return self.dataSourceArr.count+1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text=self.dataSourceArr[indexPath.row]
-        cell.selectionStyle=UITableViewCellSelectionStyle.none
-        return cell
         
+        if(indexPath.row==3)
+        {
+            let cell = testTableViewCell.init(style: UITableViewCellStyle.default, reuseIdentifier: "123")
+            return cell;
+        }
+        else
+        {
+            let cell = UITableViewCell()
+            cell.textLabel?.text=self.dataSourceArr[indexPath.row]
+            cell.selectionStyle=UITableViewCellSelectionStyle.none
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
